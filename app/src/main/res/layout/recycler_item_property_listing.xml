@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="property"
+            type="com.development.propertiesapp.model.PropertyListing" />
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/recycler_property_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            />
+        <TextView
+            android:text="@{property.id}"
+            android:id="@+id/recycler_property_title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            />
+
+        <TextView
+            android:text="124 something street, Hunters Hill 2110"
+            android:id="@+id/recycler_property_address_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            />
+
+    </LinearLayout>
+</layout>
