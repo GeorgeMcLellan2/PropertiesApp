@@ -7,6 +7,9 @@ data class PropertyListing (
     @SerializedName("Id")
     val id: String = "",
 
+    @SerializedName("Description")
+    val description: String = "",
+
     @SerializedName("Bathrooms")
     val bathrooms: Int = 0,
 
@@ -14,5 +17,14 @@ data class PropertyListing (
     val bedrooms: Int = 0,
 
     @SerializedName("Carspaces")
-    val carSpaces: Int = 0
+    val carSpaces: Int = 0,
+
+    @SerializedName("Location")
+    val location: PropertyLocation,
+
+    @SerializedName("owner")
+    val owner: PropertyOwner,
+
+    @SerializedName("ImageUrls")
+    val imageUrls: List<String>
 )

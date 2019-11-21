@@ -1,24 +1,19 @@
 package com.development.propertiesapp.presentation
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.development.propertiesapp.R
 import com.development.propertiesapp.adapters.ViewPropertiesRecyclerViewAdapter
-import com.development.propertiesapp.model.ListingsData
-import com.development.propertiesapp.model.PropertyAdsResponse
-import com.development.propertiesapp.model.PropertyListing
-import com.development.propertiesapp.network.PropertiesApi
-import com.development.propertiesapp.network.RetrofitClient
-import io.reactivex.SingleObserver
+
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class ViewPropertiesActivity : Activity() {
+class ViewPropertiesActivity : AppCompatActivity() {
 
     private var propertiesRecyclerView: RecyclerView? = null
 
@@ -28,9 +23,14 @@ class ViewPropertiesActivity : Activity() {
         ViewPropertiesRecyclerViewAdapter(context = this)
     }
 
+    lateinit var viewModel: ViewPropertiesViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_properties)
+
+        viewModel = ViewModelProviders.of(this)[ViewPropertiesViewModel::class.java]
+
         propertiesRecyclerView = findViewById(R.id.view_properties_recycler_view)
 
         propertiesRecyclerView?.apply {
@@ -38,25 +38,23 @@ class ViewPropertiesActivity : Activity() {
             layoutManager = GridLayoutManager(context, VIEW_PROPERTIES_RECYCLER_VIEW_COLUMNS)
         }
 
-        val api = RetrofitClient.retrofitInstance.create(PropertiesApi::class.java)
-        
-        api.getPropertyListings()
+        compositeDisposable.add(viewModel.getPropertyListings()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object: SingleObserver<PropertyAdsResponse<ListingsData>> {
-                override fun onSuccess(res: PropertyAdsResponse<ListingsData>) {
-                    Log.d(TAG, "onSuccess: $res")
-                    Log.d(TAG, "onSuccess: listings: ${res.data.propertyListings.size}")
-                    propertiesAdapter.setPropertyListings(res.data.propertyListings)
+            .subscribe(
+                //onSuccess
+                { propertyListings ->
+                    Log.d(TAG, "onCreate: ${viewModel.hi}")
+                    viewModel.hi = true
+                    Log.d(TAG, "onCreate: setting property listings")
+                    propertiesAdapter.setPropertyListings(propertyListings)
+                },
+                //onError
+                { error ->
+                    error.printStackTrace()
+
                 }
-
-                override fun onSubscribe(d: Disposable) {}
-
-                override fun onError(e: Throwable) {
-                    //Todo - handle error and inform user
-                }
-
-            })
+            ))
     }
 
     override fun onDestroy() {

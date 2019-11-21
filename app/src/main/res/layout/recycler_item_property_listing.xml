@@ -14,6 +14,7 @@
             android:id="@+id/recycler_property_image_view"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            imageUrl="@{property.imageUrls}"
             />
         <TextView
             android:text="@{property.id}"
@@ -24,7 +25,7 @@
             />
 
         <TextView
-            android:text="124 something street, Hunters Hill 2110"
+            android:text="@{property.location.address + `, ` + property.location.state}"
             android:id="@+id/recycler_property_address_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
