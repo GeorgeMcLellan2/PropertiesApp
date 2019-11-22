@@ -4,12 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 data class PropertyOwnerImage(
 
-    @SerializedName("big.url")
-    val big: String,
+    @SerializedName("big")
+    val big: ImageUrl,
 
-    @SerializedName("small.url")
-    val small: String,
+    @SerializedName("small")
+    val small: ImageUrl,
 
-    @SerializedName("medium.url")
-    val medium: String
+    @SerializedName("medium")
+    val medium: ImageUrl
+)
+
+data class ImageUrl(
+    @SerializedName("url")
+    val imageUrl: String
 )

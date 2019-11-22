@@ -1,36 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="property"
             type="com.development.propertiesapp.model.PropertyListing" />
     </data>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="200dp"
+        android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="20dp"
+        android:layout_marginBottom="20dp">
 
         <ImageView
             android:id="@+id/recycler_property_image_view"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            imageUrl="@{property.imageUrls}"
-            />
-        <TextView
-            android:text="@{property.id}"
-            android:id="@+id/recycler_property_title_text_view"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:minHeight="150dp"
+            propertyImageUrl="@{property.imageUrls}"
             />
 
-        <TextView
-            android:text="@{property.location.address + `, ` + property.location.state}"
-            android:id="@+id/recycler_property_address_text_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            />
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/recycler_property_info_container"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/recycler_property_owner_info_container"
+                >
+
+                <TextView
+                    android:text="@{property.id}"
+                    android:id="@+id/recycler_property_title_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:text="@{property.location.address + `, ` + property.location.state}"
+                    android:id="@+id/recycler_property_address_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@{property.bedrooms + ` beds ` +  property.bathrooms + ` baths ` + property.carSpaces + ` cars`}"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/recycler_property_owner_info_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center_horizontal"
+                app:layout_constraintStart_toEndOf="@id/recycler_property_info_container"
+                >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    imageUrl="@{property.owner.image.medium.imageUrl}"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{property.owner.name}"/>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     </LinearLayout>
 </layout>

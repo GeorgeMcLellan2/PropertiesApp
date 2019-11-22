@@ -1,6 +1,5 @@
 package com.development.propertiesapp.adapters
 
-import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
@@ -16,12 +15,10 @@ object BindingAdapters {
      * This reduces Activity/Fragment/Adapter boilerplate substantially
      */
     @JvmStatic
-    @BindingAdapter("imageUrl")
-    fun loadItemImage(view: ImageView, imageUrls: List<String>) {
+    @BindingAdapter("propertyImageUrl")
+    fun loadPropertyImage(view: ImageView, imageUrls: List<String>) {
 
         for (imageUrl in imageUrls) {
-            Log.d("BindingAdapter", "loadItemImage: $imageUrl")
-
             //Temporary fix for bad image url's ending with .html
             if (imageUrl.isNotEmpty() && (
                         imageUrl.endsWith(".jpg")
@@ -34,5 +31,12 @@ object BindingAdapters {
             }
         }
 
+    }
+
+    @JvmStatic
+    @BindingAdapter("imageUrl")
+    fun loadImage(view: ImageView, imageUrl: String) {
+        Picasso.with(view.context).load(imageUrl)
+                    .into(view)
     }
 }
