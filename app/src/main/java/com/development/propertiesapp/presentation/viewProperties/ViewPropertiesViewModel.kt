@@ -1,20 +1,16 @@
-package com.development.propertiesapp.presentation
+package com.development.propertiesapp.presentation.viewProperties
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.development.propertiesapp.model.PropertyListing
-import com.development.propertiesapp.network.PropertiesApi
-import com.development.propertiesapp.network.RetrofitClient
-import io.reactivex.Scheduler
+import com.development.propertiesapp.repository.PropertyListingsRepository
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class ViewPropertiesViewModel : ViewModel() {
 
     //TODO replace with dagger injection
-    val api = RetrofitClient.retrofitInstance.create(PropertiesApi::class.java)
+    private val propertyListingsRepository = PropertyListingsRepository()
 
     /**
      * For observing when property listing data is loaded
@@ -31,11 +27,7 @@ class ViewPropertiesViewModel : ViewModel() {
         propertyListingsAreLoading.value = true
         return if (storedPropertyListings.isEmpty()) {
             Log.d(TAG, "getPropertyListings: retrieving property listings from server...")
-            api.getPropertyListings()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                //Return the PropertyListings without the additional unnecessary data
-                .map { it.data.propertyListings }
+            propertyListingsRepository.getPropertyListings()
                 .doOnSuccess {
                     //Store the listings retrieved by this call
                     storedPropertyListings = it

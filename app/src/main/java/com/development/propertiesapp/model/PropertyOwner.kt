@@ -1,7 +1,10 @@
 package com.development.propertiesapp.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class PropertyOwner(
 
     @SerializedName("name")
@@ -15,4 +18,4 @@ data class PropertyOwner(
 
     @SerializedName("image")
     val image: PropertyOwnerImage
-)
+): Parcelable

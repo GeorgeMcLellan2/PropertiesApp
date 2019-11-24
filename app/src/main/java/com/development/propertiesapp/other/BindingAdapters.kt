@@ -1,4 +1,4 @@
-package com.development.propertiesapp.adapters
+package com.development.propertiesapp.other
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter

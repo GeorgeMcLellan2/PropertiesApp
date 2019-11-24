@@ -1,5 +1,7 @@
-package com.development.propertiesapp.presentation
+package com.development.propertiesapp.presentation.viewProperties
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,17 +9,17 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.development.propertiesapp.R
-import com.development.propertiesapp.adapters.ViewPropertiesRecyclerViewAdapter
+import com.development.propertiesapp.model.PropertyListing
+import com.development.propertiesapp.presentation.viewPropertyDetails.ViewPropertyDetailsActivity
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class ViewPropertiesActivity : AppCompatActivity() {
+class ViewPropertiesActivity : AppCompatActivity(), PropertySelectedListener {
 
     private var mPropertiesRecyclerView: RecyclerView? = null
     private var mProgressBar: ProgressBar? = null
@@ -25,7 +27,10 @@ class ViewPropertiesActivity : AppCompatActivity() {
     private val mCompositeDisposable = CompositeDisposable()
 
     private val mPropertiesAdapter: ViewPropertiesRecyclerViewAdapter by lazy {
-        ViewPropertiesRecyclerViewAdapter(context = this)
+        ViewPropertiesRecyclerViewAdapter(
+            context = this,
+            propertySelectedListener = this
+        )
     }
 
     private lateinit var mViewModel: ViewPropertiesViewModel
@@ -49,6 +54,14 @@ class ViewPropertiesActivity : AppCompatActivity() {
         retrievePropertyListings()
         observeLoadingStatus()
 
+    }
+
+    override fun onPropertySelected(propertyListing: PropertyListing, imageView: View) {
+        Log.d(TAG, "onPropertySelected $propertyListing")
+        val intent = Intent(this, ViewPropertyDetailsActivity::class.java)
+        val options = ActivityOptions.makeSceneTransitionAnimation(this, imageView, getString(R.string.transition_property_image))
+        intent.putExtra("propertyListing", propertyListing)
+        startActivity(intent, options.toBundle())
     }
 
     private fun retrievePropertyListings() {

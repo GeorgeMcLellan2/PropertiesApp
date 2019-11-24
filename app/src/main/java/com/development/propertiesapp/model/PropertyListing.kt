@@ -1,7 +1,10 @@
 package com.development.propertiesapp.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class PropertyListing (
 
     @SerializedName("Id")
@@ -27,4 +30,4 @@ data class PropertyListing (
 
     @SerializedName("ImageUrls")
     val imageUrls: List<String>
-)
+): Parcelable

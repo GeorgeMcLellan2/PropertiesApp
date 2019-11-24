@@ -1,7 +1,10 @@
 package com.development.propertiesapp.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class PropertyLocation(
     @SerializedName("Address")
     val address: String,
@@ -14,4 +17,4 @@ data class PropertyLocation(
 
     @SerializedName("Suburb")
     val suburb: String
-)
+): Parcelable

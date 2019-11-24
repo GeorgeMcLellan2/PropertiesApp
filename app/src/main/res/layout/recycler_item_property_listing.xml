@@ -4,12 +4,16 @@
         <variable
             name="property"
             type="com.development.propertiesapp.model.PropertyListing" />
+        <variable
+            name="propertySelectedListener"
+            type="com.development.propertiesapp.presentation.viewProperties.PropertySelectedListener" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
+        android:onClick="@{() -> propertySelectedListener.onPropertySelected(property, recyclerPropertyImageView)}"
         android:layout_marginBottom="20dp">
 
         <ImageView
@@ -18,6 +22,8 @@
             android:layout_height="wrap_content"
             android:minHeight="150dp"
             propertyImageUrl="@{property.imageUrls}"
+            android:contentDescription="@string/property_image_description"
+            android:transitionName="@string/transition_property_image"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,10 +83,13 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     imageUrl="@{property.owner.image.medium.imageUrl}"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{property.owner.name}"/>
+                    android:layout_marginTop="5dp"
+                    android:text="@{property.owner.name + ` ` + property.owner.lastName}"/>
+
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

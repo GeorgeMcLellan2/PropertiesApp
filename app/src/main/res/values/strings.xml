@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Properties App</string>
+    <string name="property_image_description">Property Image</string>
+    <string name="transition_property_image">property_image_transition</string>
 </resources>
